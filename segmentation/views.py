@@ -3,6 +3,9 @@ from django.conf import settings
 from .forms import UploadForm
 from .inference import run_detection_and_segmentation
 import os
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="ultralytics")
+
 
 def upload_image(request):
     if request.method == 'POST':
@@ -31,3 +34,4 @@ def upload_image(request):
 def view_result(request, output_filename):
     out_url = os.path.join(settings.MEDIA_URL, 'outputs', output_filename)
     return render(request, 'segmentation/result.html', {'out_url': out_url})
+
