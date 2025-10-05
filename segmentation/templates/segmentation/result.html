@@ -1,0 +1,62 @@
+{% extends 'segmentation/base.html' %}
+
+{% block content %}
+<div class="card soft result-card">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2>Analysis Complete</h2>
+        <p class="small" style="color: var(--text-light);">Brain tumor detection and segmentation results</p>
+    </div>
+
+    <div class="result-section" style="text-align: center;">
+        <h3>Original MRI</h3>
+        <p class="small" style="color: var(--text-light); margin-bottom: 15px;">
+            Original brain MRI scan
+        </p>
+        <div style="display: inline-block; max-width: 100%;">
+            <img src="{{ original_url }}" alt="Original MRI Image" 
+                 style="max-width: 100%; height: auto; border-radius: var(--radius-md); display: block; margin: 0 auto;" />
+        </div>
+    </div>
+
+    <div class="result-section" style="text-align: center;">
+        <h3>Tumor Detection</h3>
+        <p class="small" style="color: var(--text-light); margin-bottom: 15px;">
+            Bounding boxes with tumor type and confidence scores
+        </p>
+        <div style="display: inline-block; max-width: 100%;">
+            <img src="{{ detection_url }}" alt="Detection Result" 
+                 style="max-width: 100%; height: auto; border-radius: var(--radius-md); display: block; margin: 0 auto;" />
+        </div>
+    </div>
+
+    <div class="result-section" style="text-align: center;">
+        <h3>Segmentation Mask</h3>
+        <p class="small" style="color: var(--text-light); margin-bottom: 15px;">
+            Precise tumor boundaries with blue overlay
+        </p>
+        <div style="display: inline-block; max-width: 100%;">
+            <img src="{{ segmentation_url }}" alt="Segmentation Mask" 
+                 style="max-width: 100%; height: auto; border-radius: var(--radius-md); display: block; margin: 0 auto;" />
+        </div>
+    </div>
+
+    <div class="result-section">
+        <h3>Tumor Summary</h3>
+        <div style="background: rgba(255,255,255,0.5); padding: 20px; border-radius: var(--radius-md); text-align: center;">
+            <ul style="display: inline-block; text-align: left;">
+                {% for tumor in tumor_summary %}
+                    <li>{{ tumor }}</li>
+                {% empty %}
+                    <li style="color: var(--text-light;">No tumors detected in this scan.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(0,0,0,0.1);">
+        <a href="{% url 'segmentation:upload' %}" class="btn">
+            Upload Another Image
+        </a>
+    </div>
+</div>
+{% endblock %}
